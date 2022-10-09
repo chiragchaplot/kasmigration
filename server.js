@@ -1,5 +1,9 @@
-require ('dotenv');
+require ('dotenv').config();
 const http = require('http');
 const app = require('./index')
-const server = http.createServer();
+
+//Create The Server
+const server = http.createServer(app);
+
+//Start and listen on theport defined in .env file
 server.listen(process.env.PORT);
