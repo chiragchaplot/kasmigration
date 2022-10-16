@@ -17,7 +17,7 @@ router.post('/signup', (req, resp) => {
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
             if (results.length <= 0) {
-                query = "insert into user(name, contact_number, email, password, status, role) values (?,?,?,?,0,'user')";
+                query = "insert into user(name, contact_number, email, password, status, role) values (?,?,?,?,0,'student')";
                 connection.query(query, [user.name, user.contact_number, user.email, user.password], (err, results) => {
                     if (!err) {
                         return resp.status(200).json({ message: "Successfully registered" });
@@ -102,9 +102,9 @@ router.post("/forgotpassword", (req, resp) => {
 });
 
 
-
+// Get list of students
 router.get("/", (req, resp) => {
-    let query = "select id, name, contact_number, email, status from user where role ='user'";
+    let query = "select id, name, contact_number, email, status from user where role ='student'";
     connection.query(query, (err, results) => {
         if (!err) {
             return resp.status(200).json(results);
