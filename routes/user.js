@@ -4,19 +4,17 @@ const connection = require('../connection');
 const router = express.Router();
 
 
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 require("dotenv").config();
 
 
-// const sendEmail = require('../email/mock') // For mocking email, check console log for email checking
-//const sendEmail = require('../email/gmail') // For gmail
+const sendEmail = require('../helper/email/gmail') // For gmail
 
 router.post('/signup', (req, resp) => {
     let user = req.body;
     let query = "select email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
-        console.log(query);
-        console.log(user);
         if (!err) {
             if (results.length <= 0) {
                 query = "insert into user(name, contact_number, email, password, status, role) values (?,?,?,?,0,'user')";
@@ -48,6 +46,7 @@ router.post("/login", (req, resp) => {
                 return resp.status(401).json({ message: "Wait for admin approval" });
             }
             else if (results[0].password === user.password) {
+                console.log("Uname Password Matches");
                 const payload = { email: results[0].email, role: results[0].role };
                 accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '8h' });
                 resp.status(200).json({ token: accessToken });
@@ -62,20 +61,31 @@ router.post("/login", (req, resp) => {
 router.post("/validate", (req, resp) => {
     try {
         const token = req.body.token;
-        accessToken = jwt.verify(token,process.env.ACCESS_TOKEN,{complete:true});
+        accessToken = jwt.verify(token, process.env.ACCESS_TOKEN, { complete: true });
         console.log(accessToken);
-        return resp.status(200).json({message:"Valid token"});
+        return resp.status(200).json({ message: "Valid token" });
     }
     catch {
-        return resp.status(401).json({message: "Invalid token"}); 
+        return resp.status(401).json({ message: "Invalid token" });
     }
+});
+
+
+var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    port: 465,
+    host: "smtp.gmail.com"
 });
 
 router.post("/forgotpassword", (req, resp) => {
     const user = req.body;
     query = "select email, password from user where email=?";
     connection.query(query, [user.email], async (err, results) => {
-        console.log(results);
+        // console.log(results);
         if (!err) {
             if (results.length <= 0){
                 console.log("Email not in the database");
@@ -92,30 +102,29 @@ router.post("/forgotpassword", (req, resp) => {
 });
 
 
-router.get("/", (req,resp) => {
+
+router.get("/", (req, resp) => {
     let query = "select id, name, contact_number, email, status from user where role ='user'";
-    connection.query(query,(err,results)=>{
-        if (!err)
-        {
+    connection.query(query, (err, results) => {
+        if (!err) {
             return resp.status(200).json(results);
         }
-        else
-        {
+        else {
             return resp.status(500).json(err);
         }
     });
 });
 
-router.patch("/update",(req, resp)=>{
+router.patch("/update", (req, resp) => {
     let user = req.body;
     let query = "update user set status =? where id=? and email!='admin@admin.com'";
-    connection.query(query,[user.status,user.id],(err,results)=>{
-        if(!err) {
-            if(results.affectedRows === 1){
-                resp.status(200).json({message:"Update successfully"})
+    connection.query(query, [user.status, user.id], (err, results) => {
+        if (!err) {
+            if (results.affectedRows === 1) {
+                resp.status(200).json({ message: "Update successfully" })
             }
             else {
-                resp.status(400).json({message:"Issue updating the status. Please provide correct id."})
+                resp.status(400).json({ message: "Issue updating the status. Please provide correct id." })
             }
         }
         else
@@ -123,20 +132,20 @@ router.patch("/update",(req, resp)=>{
     });
 });
 
-router.post('/changepassword',(req,resp)=>{
+router.post('/changepassword', (req, resp) => {
     let user = req.body;
     let query = "update user set password=? where email=? and email!='admin@admin.com' and password!=?";
-    connection.query(query,[user.password,user.email,user.password],(err,results)=>{
-        if(!err)
-        {
-            if(results.affectedRows===1)
-                return resp.status(200).json({message:"Password successfully updated"});
+    connection.query(query, [user.password, user.email, user.password], (err, results) => {
+        if (!err) {
+            if (results.affectedRows === 1)
+                return resp.status(200).json({ message: "Password successfully updated" });
             else
-                return resp.status(400).json({message: "Issue updating password for given email"});
+                return resp.status(400).json({ message: "Issue updating password for given email" });
         }
         else
             return resp.status(500).json(err);
     });
 });
+
 
 module.exports = router;

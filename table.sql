@@ -13,6 +13,17 @@ create table user(
     UNIQUE (email)
 );
 
+create table address(
+    id int primary key AUTO_INCREMENT,
+    primaryField  varchar(250),
+    secondaryField varchar(250),
+    city varchar(30),
+    state varchar(30),
+    postCode varchar(8),
+    associatedUser int,
+    UNIQUE(associatedUser)
+);
+
 insert into user(name,contactNumber, email, password, status,role) values('Admin','+61410624268','chiragchaplot@gmail.com','admin
 ','true','admin')
 
