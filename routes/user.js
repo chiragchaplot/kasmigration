@@ -10,7 +10,9 @@ require("dotenv").config();
 
 // Services
 var auth = require('../services/authentication');
-var checkRole = require('../services/checkRole');
+var checkRoleStudent = require('../services/checkRoleConsultant');
+var checkRoleConsultant = require('../services/checkRoleAdmin');
+var checkRoleAdmin = require('../services/checkRoleStudent');
 const sendEmail = require('../services/gmail') // For gmail
 
 //Student Sign Up
@@ -121,9 +123,10 @@ router.get("/getstudents",auth.authenticateToken, (req, resp) => {
 });
 
 //Update Status
-router.patch("/update", (req, resp) => {
+router.patch("/update",auth.authenticateToken, (req, resp) => {
     let user = req.body;
-    let query = "update user set status =? where id=?'";
+    console.log()
+    let query = "update user set status=? where id=?";
     connection.query(query, [user.status, user.id], (err, results) => {
         if (!err) {
             if (results.affectedRows === 1) {
