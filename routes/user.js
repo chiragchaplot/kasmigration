@@ -40,7 +40,7 @@ router.post('/signup', (req, resp) => {
 });
 
 //Create Consultant
-router.post('/addconsultant',auth.authenticateToken, (req, resp) => {
+router.post('/addconsultant', auth.authenticateToken, (req, resp) => {
     let user = req.body;
     let query = "select email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
@@ -94,11 +94,11 @@ router.post("/forgotpassword", (req, resp) => {
     connection.query(query, [user.email], async (err, results) => {
         // console.log(results);
         if (!err) {
-            if (results.length <= 0){
+            if (results.length <= 0) {
                 console.log("Email not in the database");
             }
             else {
-                let result = await sendEmail(results[0].email,process.env.EMAIL_USER,"Password by Cafe Management System",`<p><b>Your login details</b><br/><b>Email:</b> ${results[0].email}<br/><b>Password:</b> ${results[0].password}<br/><br/><a href='${req.protocol + '://' + req.get("host")}' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
+                let result = await sendEmail(results[0].email, process.env.EMAIL_USER, "Password by Cafe Management System", `<p><b>Your login details</b><br/><b>Email:</b> ${results[0].email}<br/><b>Password:</b> ${results[0].password}<br/><br/><a href='${req.protocol + '://' + req.get("host")}' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
                 console.log("Result - " + result); // If you want to log what result was
             }
         }
@@ -110,7 +110,7 @@ router.post("/forgotpassword", (req, resp) => {
 
 
 // Get list of students
-router.get("/getstudents",auth.authenticateToken, (req, resp) => {
+router.get("/getstudents", auth.authenticateToken, (req, resp) => {
     let query = "select id, name, contact_number, email, status from user where role ='student'";
     connection.query(query, (err, results) => {
         if (!err) {
@@ -123,7 +123,7 @@ router.get("/getstudents",auth.authenticateToken, (req, resp) => {
 });
 
 //Update Status
-router.patch("/update",auth.authenticateToken, (req, resp) => {
+router.patch("/update", auth.authenticateToken, (req, resp) => {
     let user = req.body;
     console.log()
     let query = "update user set status=? where id=?";
@@ -144,22 +144,33 @@ router.patch("/update",auth.authenticateToken, (req, resp) => {
 //Change Password
 router.post('/changepassword', (req, resp) => {
     let user = req.body;
-    let query = "update user set password=? where email=? and email!='admin@admin.com' and password!=?";
-    connection.query(query, [user.password, user.email, user.password], (err, results) => {
+    let email = res.locals.email;
+    var query = "select * from user where email=? and password=?";
+    connection.query(query, [email, user.oldPassword], (err, results) => {
         if (!err) {
-            if (results.affectedRows === 1)
-                return resp.status(200).json({ message: "Password successfully updated" });
-            else
-                return resp.status(400).json({ message: "Issue updating password for given email" });
+            if (results.length <= 0) {
+                return res.status(400).json({ message: "Incorrect Old Password" });
+            } else if (results[0].password == user.oldPassword) {
+                query = "update user set password = ? where email = ?";
+                connection.query(query, [user.newPassword, email], (err, res) => {
+                    if (!err) {
+                        return res.status(200).json({ message: "Password Updated Successfully" });
+                    } else {
+                        return res.status(500).json(err);
+                    }
+                });
+            } else {
+                res.status(400).json({ message: "Something went wrong, please try again later" });
+            }
+        } else {
+            return res.status(500).json(err);
         }
-        else
-            return resp.status(500).json(err);
     });
 });
 
 //Check Token
-router.get('/checkToken',(request,response) => {
-    return response.status(200).json({message:"true"});
+router.get('/checkToken', (request, response) => {
+    return response.status(200).json({ message: "true" });
 });
 
 router.post("/validate", (req, resp) => {
