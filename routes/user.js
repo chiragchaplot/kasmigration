@@ -142,9 +142,10 @@ router.patch("/update", auth.authenticateToken, (req, resp) => {
 });
 
 //Change Password
-router.post('/changepassword', (req, resp) => {
+router.post('/changepassword',auth.authenticateToken, (req, res) => {
     let user = req.body;
     let email = res.locals.email;
+    console.log(email)
     var query = "select * from user where email=? and password=?";
     connection.query(query, [email, user.oldPassword], (err, results) => {
         if (!err) {
@@ -152,7 +153,7 @@ router.post('/changepassword', (req, resp) => {
                 return res.status(400).json({ message: "Incorrect Old Password" });
             } else if (results[0].password == user.oldPassword) {
                 query = "update user set password = ? where email = ?";
-                connection.query(query, [user.newPassword, email], (err, res) => {
+                connection.query(query, [user.newPassword, email], (err, results) => {
                     if (!err) {
                         return res.status(200).json({ message: "Password Updated Successfully" });
                     } else {
