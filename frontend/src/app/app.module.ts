@@ -16,6 +16,21 @@ import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { SearchCourseComponent } from './search-course/search-course.component';
+import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from 'ngx-ui-loader';
+import { MatSpinner } from '@angular/material/progress-spinner';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  text: "Loading...",
+  textColor: '#FFFFFF',
+  textPosition:'center-center',
+  pbColor: 'red',
+  bgsColor:'red',
+  fgsColor:'red',
+  fgsType: 'three-strings',
+  fgsSize: 100,
+  pbDirection: PB_DIRECTION.leftToRight,
+  pbThickness: 5
+}
 
 @NgModule({
   declarations: [	
@@ -37,7 +52,8 @@ import { SearchCourseComponent } from './search-course/search-course.component';
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
