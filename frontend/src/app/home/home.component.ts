@@ -9,14 +9,15 @@ import { SignupComponent } from '../signup/signup.component';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  signupAction(){
+  signupAction() {
+    console.log("Test");
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "550px";
-    this.dialog.open(SignupComponent,dialogConfig)
+    this.dialog.open(SignupComponent, dialogConfig);
   }
 }
