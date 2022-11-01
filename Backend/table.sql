@@ -61,6 +61,13 @@ create table campus(
     UNIQUE (addressid)
 );
 
+create table documents{
+    id int NOT NULL AUTO_INCREMENT primary,
+    uuid varchar(200) NOT NULL,
+    name varchar(255) NOT NULL,
+    userid int foreign
+}
+
 insert into user(name,contactNumber, email, password, status,role) values('Admin','+61410624268','chiragchaplot@gmail.com','admin
 ','true','admin')
 
