@@ -95,10 +95,10 @@ router.post("/forgotpassword", (req, resp) => {
         // console.log(results);
         if (!err) {
             if (results.length <= 0) {
-                console.log("Email not in the database");
+                console.log(user.email + "Email not in the database");
             }
             else {
-                let result = await sendEmail(results[0].email, process.env.EMAIL_USER, "Password by Cafe Management System", `<p><b>Your login details</b><br/><b>Email:</b> ${results[0].email}<br/><b>Password:</b> ${results[0].password}<br/><br/><a href='${req.protocol + '://' + req.get("host")}' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
+                let result = await sendEmail(results[0].email, process.env.EMAIL_USER, "Password by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b> ${results[0].email}<br/><b>Password:</b> ${results[0].password}<br/><br/><a href='http://localhost:4200' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
                 console.log("Result - " + result); // If you want to log what result was
             }
         }
@@ -107,6 +107,7 @@ router.post("/forgotpassword", (req, resp) => {
     });
     return resp.status(200).json({ message: "If the email associated matches with our records then we will send you details." });
 });
+
 
 
 // Get list of students
