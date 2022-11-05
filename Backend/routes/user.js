@@ -171,20 +171,8 @@ router.post('/changepassword',auth.authenticateToken, (req, res) => {
 });
 
 //Check Token
-router.get('/checkToken', (request, response) => {
+router.get('/checkToken',auth.authenticateToken, (request, response) => {
     return response.status(200).json({ message: "true" });
-});
-
-router.post("/validate", (req, resp) => {
-    try {
-        const token = req.body.token;
-        accessToken = jwt.verify(token, process.env.ACCESS_TOKEN, { complete: true });
-        console.log(accessToken);
-        return resp.status(200).json({ message: "Valid token" });
-    }
-    catch {
-        return resp.status(401).json({ message: "Invalid token" });
-    }
 });
 
 module.exports = router;

@@ -35,6 +35,18 @@ create table application(
     status varchar(8)
 );
 
+create table applicationStage(
+    id int primary key AUTO_INCREMENT,
+    stage varchar(2),
+    description varchar(50)
+);
+
+insert into applicationStage(stage,description) values ("1","Application Started");
+insert into applicationStage(stage,description) values ("2","Upload Documents");
+insert into applicationStage(stage,description) values ("3","Verification and Payment");
+insert into applicationStage(stage,description) values ("4","Await University");
+insert into applicationStage(stage,description) values ("5","Decision");
+
 create table courses(
     id int primary key AUTO_INCREMENT,
     universityid  varchar(10),
