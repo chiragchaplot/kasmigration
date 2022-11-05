@@ -19,6 +19,7 @@ import { SearchCourseComponent } from './search-course/search-course.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from 'ngx-ui-loader';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { LoginComponent } from './login/login.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: "Loading...",
@@ -43,7 +44,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppSidebarComponent,
     SignupComponent,
     SearchCourseComponent,
-    ForgotpasswordComponent
+    ForgotpasswordComponent,
+    LoginComponent
    ],
   imports: [
     BrowserModule,
