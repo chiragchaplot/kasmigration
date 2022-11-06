@@ -1,10 +1,10 @@
 <mat-nav-list appAccordian>
-    <mat-list-item appAccordianLink *ngFor="let menuItem of menuItems.getMenuItems()" routerLinkActive="selected" >
+    <mat-list-item appAccordianLink *ngFor="let menuItem of menuItems.getMenuItems()" routerLinkActive="selected">
         <a appAccordianToggle [routerLink]="['/cafe',menuItem.state]"
-            *ngIf="(menuItem.role === '' || menuItem.role === tokenPayload.role)">
-                <!-- {{menuItem.icon}} -->
-                <span>{{menuItem.name}}</span>
-                <span fxFlex></span>
+            *ngIf="(menuItem.role === '' || menuItem.role === tokenPayload.role)" fxFlex>
+            <mat-icon>{{menuItem.icon}}</mat-icon>
+            <span>{{menuItem.name}}</span>
+            <span fxFlex></span>
         </a>
     </mat-list-item>
 </mat-nav-list>

@@ -76,7 +76,7 @@ router.post("/login", (req, resp) => {
             else if (results[0].password === user.password) {
                 // console.log("Uname Password Matches");
                 const payload = { email: results[0].email, role: results[0].role, userid: results[0].id };
-                accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '8h' });
+                accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '30m' });
                 resp.status(200).json({ token: accessToken });
             }
             else return resp.status(400).json({ message: "Something went wrong. Please try again later." });
