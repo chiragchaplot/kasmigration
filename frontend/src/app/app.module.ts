@@ -13,21 +13,22 @@ import { SharedModule } from './shared/shared.module';
 import { FullComponent } from './layouts/full/full.component';
 import { AppHeaderComponent } from './layouts/full/header/header.component';
 import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { SearchCourseComponent } from './search-course/search-course.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from 'ngx-ui-loader';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { LoginComponent } from './login/login.component';
+import { TokenInterceptorInterceptor } from './services/tokenInterceptor/token-interceptor.interceptor';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: "Loading...",
   textColor: '#FFFFFF',
-  textPosition:'center-center',
+  textPosition: 'center-center',
   pbColor: 'red',
-  bgsColor:'red',
-  fgsColor:'red',
+  bgsColor: 'red',
+  fgsColor: 'red',
   fgsType: 'three-strings',
   fgsSize: 100,
   pbDirection: PB_DIRECTION.leftToRight,
@@ -35,7 +36,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 }
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     HomeComponent,
     BestSellerComponent,
@@ -46,7 +47,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SearchCourseComponent,
     ForgotpasswordComponent,
     LoginComponent
-   ],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -59,7 +60,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
   ],
-  providers: [],
+  providers: [HttpClientModule, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

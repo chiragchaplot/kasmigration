@@ -1,0 +1,49 @@
+<body>
+    <mat-card>
+        <b><span>Dashboard</span></b>
+    </mat-card>
+
+    <br>
+
+    <div class="row">
+        <div class = "column">
+            <div class = "card">
+                <div class = "container">
+                    <h2 class="title">Matched Students</h2>
+                    <h1 class="title">{{data?.matchStudents}}</h1>
+                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Matched Students</button></p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "column">
+            <div class = "card">
+                <div class = "container">
+                    <h2 class="title">Unmatched Students</h2>
+                    <h1 class="title">{{data?.unmatchedStudents}}</h1>
+                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Unmatched Students</button></p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "column">
+            <div class = "card">
+                <div class = "container">
+                    <h2 class="title">Incomplete Applications</h2>
+                    <h1 class="title">{{data?.incompleteApplications}}</h1>
+                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Incomplete Applications</button></p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "column">
+            <div class = "card">
+                <div class = "container">
+                    <h2 class="title">Complete Applications</h2>
+                    <h1 class="title">{{data?.completedApplications}}</h1>
+                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Completed Applications</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
