@@ -65,9 +65,8 @@ router.post('/addconsultant', auth.authenticateToken, (req, resp) => {
 
 router.post("/login", (req, resp) => {
     const user = req.body;
-    query = "select email, password, role, status from user where email=?";
+    query = "select id,email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
-        console.log(results);
         if (!err) {
             if (results.length <= 0 || results[0].password != user.password)
                 return resp.status(401).json({ message: "Incorrect username or password" });
@@ -76,7 +75,7 @@ router.post("/login", (req, resp) => {
             }
             else if (results[0].password === user.password) {
                 // console.log("Uname Password Matches");
-                const payload = { email: results[0].email, role: results[0].role };
+                const payload = { email: results[0].email, role: results[0].role, userid: results[0].id };
                 accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '8h' });
                 resp.status(200).json({ token: accessToken });
             }
@@ -126,7 +125,7 @@ router.get("/getstudents", auth.authenticateToken, (req, resp) => {
 //Update Status
 router.patch("/update", auth.authenticateToken, (req, resp) => {
     let user = req.body;
-    console.log()
+    //console.log()
     let query = "update user set status=? where id=?";
     connection.query(query, [user.status, user.id], (err, results) => {
         if (!err) {
@@ -143,10 +142,10 @@ router.patch("/update", auth.authenticateToken, (req, resp) => {
 });
 
 //Change Password
-router.post('/changepassword',auth.authenticateToken, (req, res) => {
+router.post('/changepassword', auth.authenticateToken, (req, res) => {
     let user = req.body;
     let email = res.locals.email;
-    console.log(email)
+    //console.log(email)
     var query = "select * from user where email=? and password=?";
     connection.query(query, [email, user.oldPassword], (err, results) => {
         if (!err) {
@@ -171,7 +170,7 @@ router.post('/changepassword',auth.authenticateToken, (req, res) => {
 });
 
 //Check Token
-router.get('/checkToken',auth.authenticateToken, (request, response) => {
+router.get('/checkToken', auth.authenticateToken, (request, response) => {
     return response.status(200).json({ message: "true" });
 });
 

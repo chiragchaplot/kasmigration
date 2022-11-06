@@ -1,47 +1,80 @@
 <body>
     <mat-card>
-        <b><span>Dashboard</span></b>
+        <b><span>
+            <div *ngIf = "data.role == 'consultant'">
+                Consultant Dashboard
+            </div>
+            <div *ngIf = "data.role == 'admin'">
+                Admin Dashboard
+            </div>
+            <div *ngIf = "data.role == 'student'">
+                Student Dashboard
+            </div>
+        </span></b>
     </mat-card>
 
     <br>
 
     <div class="row">
-        <div class = "column">
-            <div class = "card">
-                <div class = "container">
-                    <h2 class="title">Matched Students</h2>
-                    <h1 class="title">{{data?.matchStudents}}</h1>
-                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Matched Students</button></p>
+        <div *ngIf = "data.role == 'consultant' || data.role == 'admin'">
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Matched Students</h2>
+                        <h1 class="title">{{data?.matchStudents}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.matchStudents == 0">View Matched Students</button></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Unmatched Students</h2>
+                        <h1 class="title">{{data?.unmatchedStudents}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.unmatchedStudents == 0">View Unmatched Students</button></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Incomplete Applications</h2>
+                        <h1 class="title">{{data?.incompleteApplications}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Incomplete Applications</button></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Complete Applications</h2>
+                        <h1 class="title">{{data?.completedApplications}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Completed Applications</button></p>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class = "column">
-            <div class = "card">
-                <div class = "container">
-                    <h2 class="title">Unmatched Students</h2>
-                    <h1 class="title">{{data?.unmatchedStudents}}</h1>
-                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Unmatched Students</button></p>
+        <div *ngIf = "data.role == 'student'">
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Incomplete Applications</h2>
+                        <h1 class="title">{{data?.incompleteApplications}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/incompleteApplications']">View Incomplete Applications</button></p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class = "column">
-            <div class = "card">
-                <div class = "container">
-                    <h2 class="title">Incomplete Applications</h2>
-                    <h1 class="title">{{data?.incompleteApplications}}</h1>
-                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Incomplete Applications</button></p>
-                </div>
-            </div>
-        </div>
-
-        <div class = "column">
-            <div class = "card">
-                <div class = "container">
-                    <h2 class="title">Complete Applications</h2>
-                    <h1 class="title">{{data?.completedApplications}}</h1>
-                    <p><button class="button" [routerLink]="['/cafe/cagtegory']">View Completed Applications</button></p>
+    
+            <div class = "column">
+                <div class = "card">
+                    <div class = "container">
+                        <h2 class="title">Completed Applications</h2>
+                        <h1 class="title">{{data?.completedApplications}}</h1>
+                        <p><button class="button" [routerLink]="['/cafe/completedApplications']">View Completed Applications</button></p>
+                    </div>
                 </div>
             </div>
         </div>
