@@ -11,7 +11,7 @@ export class ConsultantService {
   constructor(private httpClient:HttpClient) { }
 
   addConsultant(data:any){
-    return this.httpClient.post(this.url+"/user/addconsultant",data,{
+    return this.httpClient.post(this.url+"/consultant/addconsultant",data,{
       headers: new HttpHeaders().set('Content-Type',"application/json")
     })
   }
@@ -21,7 +21,13 @@ export class ConsultantService {
   }
 
   updateConsultantStatus(data:any){
-    return this.httpClient.post(this.url+"/consultant/updateuserstatus/:id",data,{
+    return this.httpClient.patch(this.url+"/consultant/updateuserstatus",data,{
+      headers: new HttpHeaders().set('Content-Type',"application/json")
+    })
+  }
+
+  updateConsultant(data:any){
+    return this.httpClient.patch(this.url+"/consultant/updateconsultant",data,{
       headers: new HttpHeaders().set('Content-Type',"application/json")
     })
   }
