@@ -16,5 +16,13 @@ export class CourseService {
     })
   }
 
+  getCoursesPerUniversity(data:any) {
+    return this.httpClient.get(this.url+"/course/getbyuniversity/:id",data)
+  }
+
+  getAllCourses(){
+    return this.httpClient.get(this.url + "/course/findcourse");
+  }
+
 
 }

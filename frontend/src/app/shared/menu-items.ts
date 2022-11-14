@@ -15,52 +15,58 @@ const MENUITEMS = [
         role: ''
     },
     {
-        state: 'searchCourse',
+        state: 'searchcourse',
         name: 'Search Courses',
         icon: ' list_alt',
         role: ''
     },
     {
-        state: 'viewApplications',
+        state: 'view-application-student',
         name: 'View Applications',
         icon: 'desktop_mac',
-        role: ''
+        role: 'student'
     },
     {
-        state: 'inactiveAccounts',
+        state: 'view-application',
+        name: 'View Applications',
+        icon: 'desktop_mac',
+        role: 'admin'
+    },
+    {
+        state: 'view-application',
+        name: 'View Applications',
+        icon: 'desktop_mac',
+        role: 'consultant'
+    },
+    {
+        state: 'inactive-accounts',
         name: 'Inactive Accounts',
         icon: 'warning',
         role: 'consultant'
     },
     {
-        state: 'inactiveAccounts',
+        state: 'inactive-accounts',
         name: 'Inactive Accounts',
         icon: 'warning',
         role: 'admin'
     },
     {
-        state: 'matchedStudents',
-        name: 'Matched Students',
-        icon: 'group',
-        role: 'admin'
-    },
-    {
-        state: 'unmatchedStudents',
-        name: 'Unmatched Students',
-        icon: 'group-add',
-        role: 'admin'
-    },
-    {
-        state: 'createApplication',
+        state: 'create-application',
         name: 'Create Application',
         icon: 'note_add',
         role: 'student'
     },
     {
-        state: 'uploadDocument',
+        state: 'upload-document-student',
         name: 'Upload Document',
         icon: 'cloud_upload',
         role: 'student'
+    },
+    {
+        state: 'consultant',
+        name: 'Manage Consultant',
+        icon: 'event_note',
+        role: 'admin'
     }
 ];
 
