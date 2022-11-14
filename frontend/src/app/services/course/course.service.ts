@@ -17,11 +17,11 @@ export class CourseService {
   }
 
   getCoursesPerUniversity(data:any) {
-    return this.httpClient.get(this.url+"/course/getbyuniversity/:id",data)
+    return this.httpClient.get(this.url+"/courses/getbyuniversity/:id",data)
   }
 
   getAllCourses(){
-    return this.httpClient.get(this.url + "/course/findcourse");
+    return this.httpClient.get(this.url + "/courses/findcourse");
   }
 
 

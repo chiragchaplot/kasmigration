@@ -17,7 +17,7 @@ router.get("/universities", (req, resp) => {
 });
 
 router.get("/findcourse", (req, resp) => {
-    let query = "select * from courses";
+    let query = "select c.name, u.name as university, c.level, c.cricos, c.link from courses c inner join university u on c.universityid = u.id";
     connection.query(query, (err, results) => {
         if (!err) {
             return resp.status(200).json(results);
@@ -29,7 +29,7 @@ router.get("/findcourse", (req, resp) => {
 });
 
 // Get courses per university
-router.get('/getbyuniversity/:id',(req,res,next)=>{
+router.get('/getbyuniversity',(req,res,next)=>{
     let id = req.params.id;
     let spec = req.body
     var query = "select * from courses where universityid=? and status='1'";
