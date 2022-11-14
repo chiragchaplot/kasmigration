@@ -7,7 +7,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ConsultantService } from 'src/app/services/consultant/consultant.service';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
-import { ConsultantComponent } from '../dialog/consultant/consultant.component';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-search-course',
@@ -47,7 +47,7 @@ export class SearchCourseComponent implements OnInit {
   }
 
   viewMoreInformation(values:any) {
-
+    window.open(values.link,"_blank");
   }
 
   handleDownloadAction() {
@@ -55,7 +55,19 @@ export class SearchCourseComponent implements OnInit {
   }
 
   handleApplyAction(values:any){
-
+    console.log(values.id);
+    var token: any;
+    try {
+      token = localStorage.getItem('token');
+      var decodedValue:any = jwtDecode(token);
+      if (decodedValue.role == 'student') {
+        console.log("ok");
+      } else {
+        this.snackBarService.openSnackBar(GlobalConstants.unauthorised, GlobalConstants.error);
+      }
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   applyFilter(event: Event) {

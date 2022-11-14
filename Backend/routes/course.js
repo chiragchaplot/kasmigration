@@ -17,7 +17,7 @@ router.get("/universities", (req, resp) => {
 });
 
 router.get("/findcourse", (req, resp) => {
-    let query = "select c.name, u.name as university, c.level, c.cricos, c.link from courses c inner join university u on c.universityid = u.id";
+    let query = "select c.id, c.name, u.name as university, c.level, c.cricos, c.link from courses c inner join university u on c.universityid = u.id";
     connection.query(query, (err, results) => {
         if (!err) {
             return resp.status(200).json(results);
