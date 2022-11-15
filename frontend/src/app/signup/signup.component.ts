@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
     var data = {
       name: formData.name,
       email: formData.email,
-      contactNumber: formData.contactNumber,
+      contact_number: formData.contactNumber,
       password: formData.password
     };
 

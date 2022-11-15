@@ -1,5 +1,4 @@
 const express = require('express');
-const { response } = require('..');
 const connection = require('../connection');
 const router = express.Router();
 var auth = require('../services/authentication');
@@ -40,9 +39,9 @@ router.post('/getStudentApplication', auth.authenticateToken, (req, res, next) =
     });
 })
 
-router.get('/getapplications', auth.authenticateToken, (req, res, next) => {
+router.post('/getapplications', auth.authenticateToken, (req, res, next) => {
     const body = req.body;
-    checkExistingApplicationQuery = "select a.id as applicationid, u.name,c.name as course, as2.description from application a inner join user u on u.id = a.studentid INNER JOIN courses c on c.id = a.courseid inner join applicationStage as2  on as2.id = a.stage where a.studentid=?";
+    checkExistingApplicationQuery = "select a.id as applicationid, u.name, c.name as course,  as2.description as applicationstage, u2.name as universityname from application a  inner join user u on u.id = a.studentid  INNER JOIN courses c on c.id = a.courseid  inner join applicationStage as2  on as2.id = a.stage inner join university u2 on c.universityid  = u2.id  where a.studentid=?";
     connection.query(checkExistingApplicationQuery, [body.id], (err, results) => {
         //console.log(query);
         if (!err) {

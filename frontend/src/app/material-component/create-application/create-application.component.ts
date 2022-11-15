@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ApplicationService } from 'src/app/services/application/application.service';
@@ -15,8 +16,12 @@ import { inflate } from 'zlib';
 })
 export class CreateApplicationComponent implements OnInit {
 
-  createApplicationForm: any = FormGroup;
+  displayedColumns: string[] = ['applicationid','studentname','coursename'];
+  displayedColumns2: string[] = ['universityName','applicationStage'];
+  displayedColumns3: string[] = ['phone','email'];
+  dataSource: any;
   responseMessage: any;
+  mainApplicationResponse: any;
 
   constructor(private courseService: CourseService,
     private formBuilder: FormBuilder,
@@ -28,12 +33,6 @@ export class CreateApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.ngxService.start();
     this.createApplication();
-    this.createApplicationForm = this.formBuilder.group({
-      // name:[null,[Validators.required,Validators.pattern(GlobalConstants.nameRegex)]],
-      // email:[null,[Validators.required,Validators.pattern(GlobalConstants.emailRegex)]],
-      // contactNumber:[null,[Validators.required,Validators.pattern(GlobalConstants.contactNumberRegex)]],
-      // password:[null,[Validators.required]]
-    })
   }
 
   createApplication(){
@@ -69,10 +68,10 @@ export class CreateApplicationComponent implements OnInit {
     console.log(data);
     this.applicationService.getSpecificStudentApplication(data).subscribe((response:any)=> {
       this.ngxService.stop()
-      var apiResponse:any = response;
-      console.log(apiResponse);
+      this.mainApplicationResponse = response;
+      this.dataSource = new MatTableDataSource(response);
     },(error: any) => {
-      //this.ngxService.stop();
+      this.ngxService.stop();
       console.log(error);
       if (error.error?.message) {
         this.responseMessage = error.error?.message

@@ -17,12 +17,12 @@ export class ApplicationService {
     })
   }
 
-  getApplication(data:any){
+  getApplication(){
     return this.httpClient.get(this.url+"/consultant/getApplications");
   }
 
   getAllStudentApplication(data:any){
-    return this.httpClient.get(this.url+"/consultant/getApplications",data);
+    return this.httpClient.post(this.url+"/student/getApplications",data);
   }
 
   getSpecificStudentApplication(data:any){

@@ -97,7 +97,7 @@ router.get("/getAllConsultants",auth.authenticateToken, (req, resp) => {
 //Get all applications
 router.get('/getapplications',(req,res,next)=>{
     const body = req.body;
-    checkExistingApplicationQuery = "select a.id as applicationid, u.name,c.name as course, as2.description from application a inner join user u on u.id = a.studentid INNER JOIN courses c on c.id = a.courseid inner join applicationStage as2  on as2.id = a.stage";
+    checkExistingApplicationQuery = "select a.id as applicationid, u.name, c.name as course,  as2.description as applicationstage, u2.name as universityname from application a  inner join user u on u.id = a.studentid  INNER JOIN courses c on c.id = a.courseid  inner join applicationStage as2  on as2.stage = a.stage inner join university u2 on c.universityid  = u2.id";
     connection.query(checkExistingApplicationQuery, (err, results) => {
         if(!err) {
             return res.status(200).json(results);
