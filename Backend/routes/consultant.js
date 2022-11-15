@@ -94,5 +94,18 @@ router.get("/getAllConsultants",auth.authenticateToken, (req, resp) => {
     });
 });
 
+//Get all applications
+router.get('/getapplications',(req,res,next)=>{
+    const body = req.body;
+    checkExistingApplicationQuery = "select a.id as applicationid, u.name,c.name as course, as2.description from application a inner join user u on u.id = a.studentid INNER JOIN courses c on c.id = a.courseid inner join applicationStage as2  on as2.id = a.stage";
+    connection.query(checkExistingApplicationQuery, (err, results) => {
+        if(!err) {
+            return res.status(200).json(results);
+        } else {
+            return resp.status(500).json(err);
+        }
+    })
+})
+
 
 module.exports = router;

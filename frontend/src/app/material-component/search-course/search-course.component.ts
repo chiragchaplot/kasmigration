@@ -60,8 +60,11 @@ export class SearchCourseComponent implements OnInit {
     try {
       token = localStorage.getItem('token');
       var decodedValue:any = jwtDecode(token);
+      console.log(decodedValue.userid);
       if (decodedValue.role == 'student') {
-        console.log("ok");
+        localStorage.setItem('courseid',values.id);
+        localStorage.setItem('userid',decodedValue.userid);
+        this.router.navigate(['/cafe/create-application']);
       } else {
         this.snackBarService.openSnackBar(GlobalConstants.unauthorised, GlobalConstants.error);
       }

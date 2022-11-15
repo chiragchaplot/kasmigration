@@ -50,12 +50,12 @@ const MENUITEMS = [
         icon: 'warning',
         role: 'admin'
     },
-    {
-        state: 'create-application',
-        name: 'Create Application',
-        icon: 'note_add',
-        role: 'student'
-    },
+    // {
+    //     state: 'create-application',
+    //     name: 'Create Application',
+    //     icon: 'note_add',
+    //     role: 'student'
+    // },
     {
         state: 'upload-document-student',
         name: 'Upload Document',
