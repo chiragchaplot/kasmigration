@@ -28,12 +28,14 @@ var pool = mysql.createPool({
 // });
 
 pool.on('connection', function(_conn){
+
     if(_conn){
         console.log('Connected to DB via threadID' + _conn.threadId);
         _conn.query('SET SESSION auto_increment_increment=1');
     } else {
         console.log(_conn);
     }
+    console.log("Database Connection established!");
 });
 
 module.exports = connection

@@ -12,8 +12,7 @@ router.post('/createApplication', auth.authenticateToken, (req, res, next) => {
                 createApplicationQuery = "insert into application(studentid,stage,courseid,status) values(?,1,?,0)";
                 connection.query(createApplicationQuery, [body.studentid, body.courseid], (err, results) => {
                     if (!err) {
-
-
+                        return res.status(200).json(results);
                     }
                     else {
                         return res.status(500).json({ message: err });
@@ -29,7 +28,7 @@ router.post('/createApplication', auth.authenticateToken, (req, res, next) => {
 
 router.post('/getStudentApplication', auth.authenticateToken, (req, res, next) => {
     const body = req.body;
-    getAppDetails = "select a.id as applicationid, a.studentid as studentid, as2.description as applicationstage, u.name as studentname, u.contact_number as phone, u.email as email, c.name  as coursename, university.name as universityname  from application a inner join user u on u.id = a.studentid INNER JOIN courses c on c.id = a.courseid inner join applicationStage as2  on as2.id = a.stage inner join university on c.universityid = university.id  where a.studentid=? && a.courseid = ?";
+    getAppDetails = "select a.id as applicationid, a.studentid as studentid, as2.description as applicationstage, u.name as studentname, u.contactNumber as phone, u.email as email, c.name  as coursename, university.name as universityname  from application a inner join user u on u.id = a.studentid INNER JOIN courses c on c.id = a.courseid inner join applicationStage as2  on as2.id = a.stage inner join university on c.universityid = university.id  where a.studentid=? && a.courseid = ?";
     connection.query(getAppDetails, [body.studentid, body.courseid], (err, results) => {
         if (!err) {
             return res.status(200).json(results);

@@ -6,15 +6,16 @@ var auth = require('../services/authentication');
 
 //Create Consultant
 router.post('/addconsultant', auth.authenticateToken, (req, resp) => {
-    console.log("try");
     let user = req.body;
     let query = "select email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
             if (results.length <= 0) {
-                query = "insert into user(name, contact_number, email, password, status, role) values (?,?,?,'password',1,'consultant')";
+                query = "insert into user(name, contactNumber, email, password, status, role) values (?,?,?,'password',1,'consultant')";
                 connection.query(query, [user.name, user.contactNumber, user.email], (err, results) => {
                     if (!err) {
+                        let email = sendEmail(user.email, process.env.EMAIL_USER, "Consultant Account Created by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b>${user.email}<br/><b>Password:</b>password<br/><br/><a href='https://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
+                        console.log(email);
                         return resp.status(200).json({ message: "Consultant Created" });
                     }
                     else
