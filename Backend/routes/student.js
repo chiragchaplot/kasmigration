@@ -12,7 +12,7 @@ router.post('/createApplication', auth.authenticateToken, (req, res, next) => {
                 createApplicationQuery = "insert into application(studentid,stage,courseid,status) values(?,1,?,0)";
                 connection.query(createApplicationQuery, [body.studentid, body.courseid], (err, results) => {
                     if (!err) {
-                        return res.status(200).json(results);
+                        return res.status(200).json({message: "Application Created"});
                     }
                     else {
                         return res.status(500).json({ message: err });
