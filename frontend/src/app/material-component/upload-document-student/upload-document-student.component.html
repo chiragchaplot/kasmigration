@@ -14,3 +14,35 @@
         <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()">Upload Files</button>
    
 </mat-card>
+<hr>
+<mat-card>
+    <b><span>List of Uploaded Files</span></b>
+</mat-card>
+<hr>
+
+
+<div class="response_table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="originalname">
+            <th mat-header-cell *matHeaderCellDef> Name</th>
+            <td mat-cell *matCellDef="let element">{{element.originalname}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element" class="action-link">
+
+                <button mat-icon-button color="primary" matTooltip="Download" (click)="handleDownload(element)">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" matTooltip="Delete"
+                    (click)="handleDelete(element)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+    </table>
+</div>

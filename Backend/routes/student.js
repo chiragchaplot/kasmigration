@@ -44,8 +44,9 @@ router.post('/upload', upload.array('file'), auth.authenticateToken, (req, res, 
     }
 })
 
-router.get('/getuploadedfiles',auth.authenticateToken, (req, res, next)=> {
+router.post('/getuploadedfiles',auth.authenticateToken, (req, res, next)=> {
     var userid = req.body.id;
+    console.log(userid);
     var query = "select originalname from document where userid=?";
     connection.query(query,[userid],(err,results)=>{
         if(!err) {

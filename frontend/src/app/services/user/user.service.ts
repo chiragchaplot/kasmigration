@@ -48,6 +48,8 @@ export class UserService {
   }
 
   getUploadedFiles(data:any) {
-    return this.httpClient.get(this.url+'/student/getuploadedfiles',data);
+    return this.httpClient.post(this.url+'/student/getuploadedfiles',data,{
+      headers: new HttpHeaders().set('Content-Type',"application/json")
+    });
   }
 }
