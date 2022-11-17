@@ -20,7 +20,7 @@
             <div class = "column">
                 <div class = "card">
                     <div class = "container">
-                        <h2 class="title">Matched Students</h2>
+                        <h2 class="title">Inactive Students</h2>
                         <h1 class="title">{{data?.matchStudents}}</h1>
                         <p><button mat-raised-button class="button" [routerLink]="['/cafe/inactive-accounts']" [disabled]="data?.matchStudents === 0">View Matched Students</button></p>
                     </div>
@@ -50,9 +50,9 @@
             <div class = "column">
                 <div class = "card">
                     <div class = "container">
-                        <h2 class="title">Complete Applications</h2>
+                        <h2 class="title">Active Students</h2>
                         <h1 class="title">{{data?.completedApplications}}</h1>
-                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.completedApplications === 0">View Completed Applications</button></p>
+                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/view-student-details']" [disabled]="data?.completedApplications === 0">View Completed Applications</button></p>
                     </div>
                 </div>
             </div>

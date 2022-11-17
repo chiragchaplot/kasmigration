@@ -15,10 +15,10 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
 
     if (role === process.env.ROLE_ADMIN || role === process.env.ROLE_CONSULTANT) {
         var matchStudents, unmatchedStudents, incompleteApplications, completedApplications;
-        var matchStudentsQuery = "select count(*) as matchStudents from application where consultantid IS NULL";
+        var matchStudentsQuery = "select count(*) as matchStudents from user where status=0 && role='student'";
         var unmatchedStudentsQuery = "select count(*) as unmatchStudents from application where consultantid IS NOT NULL";
-        var incompleteApplicationsQuery = "select count(*) as incompleteApplications from application where stage != 5 AND status = 0";
-        var completedApplicationsQuery = "select count(*) as completeApplications from application where stage = 5 AND status = 1";
+        var incompleteApplicationsQuery = "select count(*) as incompleteApplications from application where stage != 5";
+        var completedApplicationsQuery = "select count(*) as completeApplications from user where status=1 && role='student'";
 
         connection.query(matchStudentsQuery, (err, results) => {
             if (!err) {
