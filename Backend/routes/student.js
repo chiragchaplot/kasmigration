@@ -1,7 +1,36 @@
 const express = require('express');
 const connection = require('../connection');
 const router = express.Router();
+const multer = require('multer');
 var auth = require('../services/authentication');
+const { authenticateToken } = require('../services/authentication');
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, 'uploads')
+    },
+    filename: (req, file, callBack) => {
+        var name = Date.now()+file.originalname;
+        console.log(name);
+        callBack(null, name);
+    }
+  })
+  
+const upload = multer({ 
+    storage: storage,
+
+})
+
+router.post('/upload',upload.single('file'),auth.authenticateToken, (req, res, next) => {
+    const file = req.file;
+    //console.log(file.filename);
+    if(!file){
+        return res.status(400).json({message: "NO FILE"});
+    } else {
+        return res.status(200).json({message: "FILE UPLOADED"});
+    }
+})
 
 router.post('/createApplication', auth.authenticateToken, (req, res, next) => {
     const body = req.body;

@@ -42,4 +42,8 @@ export class UserService {
       headers: new HttpHeaders().set('Content-Type',"application/json")
     })
   }
+
+  uploadFiles(data:any) {
+    return this.httpClient.post(this.url+"/student/upload",data)
+  }
 }

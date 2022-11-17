@@ -16,16 +16,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: any = FormGroup;
   responseMessage: any;
-
-  /*
-
-
   
-
-  
-
-  
-  */
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private userService: UserService,

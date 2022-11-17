@@ -68,12 +68,12 @@ const MENUITEMS = [
     //     icon: 'note_add',
     //     role: 'student'
     // },
-    // {
-    //     state: 'upload-document-student',
-    //     name: 'Upload Document',
-    //     icon: 'cloud_upload',
-    //     role: 'student'
-    // },
+    {
+        state: 'upload-document-student',
+        name: 'Upload Document',
+        icon: 'cloud_upload',
+        role: 'student'
+    },
     {
         state: 'consultant',
         name: 'Manage Consultant',

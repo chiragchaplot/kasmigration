@@ -1,1 +1,16 @@
-<p>upload-document-student works!</p>
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayout="row">
+        <span class="title-center">Upload Documents</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<hr>
+<mat-card>
+    <b><span>Upload File</span></b>
+    <br><br>
+   <br>
+            <input type="file" name="image" accept="image/png, image/jpeg" multiple (change)="selectFile($event)">
+        <br>
+        <br><br>
+        <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()">Upload Files</button>
+   
+</mat-card>
