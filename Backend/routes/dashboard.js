@@ -11,7 +11,7 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
     var tokenStruct = jwt.decode(token);
     var role = tokenStruct.role;
-    const userId = token.userid;
+    const userId = tokenStruct.userid;
 
     if (role === process.env.ROLE_ADMIN || role === process.env.ROLE_CONSULTANT) {
         var matchStudents, unmatchedStudents, incompleteApplications, completedApplications;
@@ -60,9 +60,10 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
             }
         })
     } else if (role === process.env.ROLE_STUDENT) {
+        console.log(userId);
         var incompleteApplications, completedApplications;
-        var incompleteApplicationsQuery = "select count(*) as incompleteApplications from application where stage != 5 AND status = 0 AND studentid = ?";
-        var completedApplicationsQuery = "select count(*) as completeApplications from application where stage = 5 AND status = 1 AND studentid = ?";
+        var incompleteApplicationsQuery = "select count(*) as incompleteApplications from application where stage != 5 AND studentid = ?";
+        var completedApplicationsQuery = "select count(*) as completeApplications from application where stage = 5 AND studentid = ?";
 
         connection.query(incompleteApplicationsQuery,[userId], (err, results) => {
             if (!err) {
