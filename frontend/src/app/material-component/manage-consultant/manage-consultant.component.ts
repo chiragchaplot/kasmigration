@@ -35,6 +35,7 @@ export class ManageConsultantComponent implements OnInit {
   tableData() {
     this.consultantService.getAllConsultants().subscribe((response: any) => {
       this.ngxService.stop();
+      console.log(response);
       this.dataSource = new MatTableDataSource(response);
     }, (error: any) => {
       this.ngxService.stop();
@@ -93,9 +94,9 @@ export class ManageConsultantComponent implements OnInit {
   // }
 
   onChange(status:any, id:any) {
-    var updatedStatus = '0';
+    var updatedStatus = 0;
     if (status === true) {
-      updatedStatus = '1'
+      updatedStatus = 1
     } 
     var data = {
       status:updatedStatus,

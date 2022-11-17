@@ -87,6 +87,33 @@ router.get("/getAllConsultants",auth.authenticateToken, (req, resp) => {
     let query = "select * from user where role='consultant'";
     connection.query(query, (err, results) => {
         if (!err) {
+            for (i=0;i<results.length;i++){
+                if(results[i].status == 0) {
+                    results[i].status = false
+                } else {
+                    results[i].status = true
+                }
+            }
+            return resp.status(200).json(results);
+        }
+        else {
+            return resp.status(500).json(err);
+        }
+    });
+});
+
+//Get all students
+router.get("/getallstudents",auth.authenticateToken, (req, resp) => {
+    let query = "select * from user where role='student' AND status=0";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            for (i=0;i<results.length;i++){
+                if(results[i].status == 0) {
+                    results[i].status = false
+                } else {
+                    results[i].status = true
+                }
+            }
             return resp.status(200).json(results);
         }
         else {

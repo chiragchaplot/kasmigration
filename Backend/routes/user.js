@@ -25,6 +25,7 @@ router.post('/signup', (req, resp) => {
                 query = "insert into user(name, contactNumber, email, password, status, role) values (?,?,?,?,false,'student')";
                 connection.query(query, [user.name, user.contact_number, user.email, user.password], (err, results) => {
                     if (!err) {
+                        let email = sendEmail(user.email, process.env.EMAIL_USER, "Student Account Created by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b>${user.email}<br/><b>Password:</b>${user.password}<br/><br/><a href='https://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
                         return resp.status(200).json({ message: "Successfully registered" });
                     }
                     else
@@ -70,6 +71,7 @@ router.post("/login", (req, resp) => {
     query = "select id,email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
+            console.log(results[0].status);
             if (results.length <= 0 || results[0].password != user.password)
                 return resp.status(401).json({ message: "Incorrect username or password" });
             else if (results[0].status === 0) {
