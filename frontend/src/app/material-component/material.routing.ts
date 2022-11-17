@@ -8,72 +8,81 @@ import { SearchCourseComponent } from './search-course/search-course.component';
 import { UploadDocumentStudentComponent } from './upload-document-student/upload-document-student.component';
 import { ViewApplicationStudentComponent } from './view-application-student/view-application-student.component';
 import { ViewApplicationComponent } from './view-application/view-application.component';
+import { ViewStudentDetailsComponent } from './view-student-details/view-student-details.component';
 
 
 
 export const MaterialRoutes: Routes = [
     {
-        path:'dashboard',
-        component:DashboardComponent,
-        data:{
-            expectedRole:['admin','consultant','student']
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: {
+            expectedRole: ['admin', 'consultant', 'student']
         }
     },
     {
-        path:'consultant',
-        component:ManageConsultantComponent,
+        path: 'consultant',
+        component: ManageConsultantComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['admin']
+        data: {
+            expectedRole: ['admin']
         }
     },
     {
-        path:'searchcourse',
-        component:SearchCourseComponent,
+        path: 'searchcourse',
+        component: SearchCourseComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['admin','consultant','student']
+        data: {
+            expectedRole: ['admin', 'consultant', 'student']
         }
     },
     {
-        path:'view-application-student',
-        component:ViewApplicationStudentComponent,
+        path: 'view-application-student',
+        component: ViewApplicationStudentComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['student']
+        data: {
+            expectedRole: ['student']
         }
     },
     {
-        path:'view-application',
-        component:ViewApplicationComponent,
+        path: 'view-application',
+        component: ViewApplicationComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['admin','consultant']
+        data: {
+            expectedRole: ['admin', 'consultant']
         }
     },
     {
-        path:'create-application',
-        component:CreateApplicationComponent,
+        path: 'create-application',
+        component: CreateApplicationComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['student']
+        data: {
+            expectedRole: ['student']
         }
     },
     {
-        path:'upload-document-student',
-        component:UploadDocumentStudentComponent,
+        path: 'upload-document-student',
+        component: UploadDocumentStudentComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['student']
+        data: {
+            expectedRole: ['student']
         }
     },
     {
-        path:'inactive-accounts',
-        component:InactiveAccountsComponent,
+        path: 'inactive-accounts',
+        component: InactiveAccountsComponent,
         canActivate: [RouteGuardService],
-        data:{
-            expectedRole:['admin','consultant']
+        data: {
+            expectedRole: ['admin', 'consultant']
         }
     },
-    
+    {
+        path: 'view-student-details',
+        component: ViewStudentDetailsComponent,
+        canActivate: [RouteGuardService],
+        data: {
+            expectedRole: ['admin', 'consultant']
+        }
+    }
+
 ];

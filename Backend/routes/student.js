@@ -42,7 +42,6 @@ router.post('/getapplications', auth.authenticateToken, (req, res, next) => {
     const body = req.body;
     checkExistingApplicationQuery = "select a.id as applicationid, u.name, c.name as course,  as2.description as applicationstage, u2.name as universityname from application a  inner join user u on u.id = a.studentid  INNER JOIN courses c on c.id = a.courseid  inner join applicationStage as2  on as2.stage = a.stage inner join university u2 on c.universityid  = u2.id  where a.studentid=?";
     connection.query(checkExistingApplicationQuery, [body.id], (err, results) => {
-        //console.log(query);
         if (!err) {
             for (i=0;i<results.length;i++){
                 if(results[i].status == 0) {
@@ -53,7 +52,6 @@ router.post('/getapplications', auth.authenticateToken, (req, res, next) => {
             }
             return res.status(200).json(results);
         } else {
-            console.log(err);
             return resp.status(500).json(err);
         }
     })

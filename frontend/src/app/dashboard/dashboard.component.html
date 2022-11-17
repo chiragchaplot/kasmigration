@@ -22,12 +22,12 @@
                     <div class = "container">
                         <h2 class="title">Matched Students</h2>
                         <h1 class="title">{{data?.matchStudents}}</h1>
-                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.matchStudents === 0">View Matched Students</button></p>
+                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/inactive-accounts']" [disabled]="data?.matchStudents === 0">View Matched Students</button></p>
                     </div>
                 </div>
             </div>
     
-            <div class = "column">
+            <!-- <div class = "column">
                 <div class = "card">
                     <div class = "container">
                         <h2 class="title">Unmatched Students</h2>
@@ -35,14 +35,14 @@
                         <p><button mat-raised-button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.unmatchedStudents === 0">View Unmatched Students</button></p>
                     </div>
                 </div>
-            </div>
+            </div> -->
     
             <div class = "column">
                 <div class = "card">
                     <div class = "container">
                         <h2 class="title">Incomplete Applications</h2>
                         <h1 class="title">{{data?.incompleteApplications}}</h1>
-                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/cagtegory']" [disabled]="data?.incompleteApplications === 0">View Incomplete Applications</button></p>
+                        <p><button mat-raised-button class="button" [routerLink]="['/cafe/view-application']" [disabled]="data?.incompleteApplications === 0">View Incomplete Applications</button></p>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
   styleUrls: ['./view-application.component.scss']
 })
 export class ViewApplicationComponent implements OnInit {
-  displayedColumns: string[] = ['applicationid','name','course','universityname','applicationstage','actions'];
+  displayedColumns: string[] = ['applicationid', 'name', 'course', 'universityname', 'applicationstage', 'actions'];
   dataSource: any;
   responseMessage: any;
 
@@ -23,44 +23,65 @@ export class ViewApplicationComponent implements OnInit {
     private snackBarService: SnackbarService,
     private router: Router) { }
 
-    ngOnInit(): void {
-      this.ngxService.start();
-      this.tableData();
-    }
-  
-    tableData() {
-      console.log(localStorage.getItem('userid'));
-      this.applicationService.getApplication().subscribe((response: any) => {
-        this.ngxService.stop();
-        console.log(response);
-        this.dataSource = new MatTableDataSource(response);
-      }, (error: any) => {
-        this.ngxService.stop();
-        console.log(error);
-        if (error.error?.message) {
-          this.responseMessage = error.error?.message
-        } else {
-          this.responseMessage = GlobalConstants.genericError;
-        }
-        this.snackBarService.openSnackBar(this.responseMessage, GlobalConstants.error);
-      })
-    }
-  
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-  
-    handleDownloadAction(){
-  
-    }
+  ngOnInit(): void {
+    this.ngxService.start();
+    this.tableData();
+  }
 
-    sendReminder(values:any){
+  tableData() {
+    console.log(localStorage.getItem('userid'));
+    this.applicationService.getApplication().subscribe((response: any) => {
+      this.ngxService.stop();
+      console.log(response);
+      this.dataSource = new MatTableDataSource(response);
+    }, (error: any) => {
+      this.ngxService.stop();
+      console.log(error);
+      if (error.error?.message) {
+        this.responseMessage = error.error?.message
+      } else {
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.snackBarService.openSnackBar(this.responseMessage, GlobalConstants.error);
+    })
+  }
 
-    }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
-    onChange(status:any, id:any) {
-      
+  handleDownloadAction() {
+
+  }
+
+  sendReminder(values: any) {
+
+  }
+
+  onChange(status: any, id: any) {
+    var updatedStatus = 0;
+    if (status === true) {
+      updatedStatus = 1
     }
+    var data = {
+      status: updatedStatus,
+      id: id
+    }
+    this.applicationService.updateapplicationstatus(data).subscribe((response: any) => {
+      this.ngxService.stop();
+      this.responseMessage = response?.message;
+      this.snackBarService.openSnackBar(this.responseMessage, "success");
+    }, (error: any) => {
+      this.ngxService.stop();
+      console.log(error);
+      if (error.error?.message) {
+        this.responseMessage = error.error?.message
+      } else {
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.snackBarService.openSnackBar(this.responseMessage, GlobalConstants.error);
+    })
+  }
 
 }

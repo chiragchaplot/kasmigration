@@ -10,11 +10,11 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 import { ConsultantComponent } from '../dialog/consultant/consultant.component';
 
 @Component({
-  selector: 'app-inactive-accounts',
-  templateUrl: './inactive-accounts.component.html',
-  styleUrls: ['./inactive-accounts.component.scss']
+  selector: 'app-view-student-details',
+  templateUrl: './view-student-details.component.html',
+  styleUrls: ['./view-student-details.component.scss']
 })
-export class InactiveAccountsComponent implements OnInit {
+export class ViewStudentDetailsComponent implements OnInit {
 
   displayedColumns: string[] = ['name','email','contact_number','edit'];
   dataSource: any;
@@ -33,7 +33,7 @@ export class InactiveAccountsComponent implements OnInit {
   }
 
   tableData() {
-    this.consultantService.getAllInactiveStudents().subscribe((response: any) => {
+    this.consultantService.getAllActiveStudents().subscribe((response: any) => {
       this.ngxService.stop();
       console.log(response);
       this.dataSource = new MatTableDataSource(response);

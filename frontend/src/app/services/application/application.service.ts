@@ -30,5 +30,11 @@ export class ApplicationService {
       headers: new HttpHeaders().set('Content-Type',"application/json")
     })
   }
+
+  updateapplicationstatus(data:any){
+    return this.httpClient.patch(this.url+"/consultant/updateapplication",data,{
+      headers: new HttpHeaders().set('Content-Type',"application/json")
+    })
+  }
   
 }

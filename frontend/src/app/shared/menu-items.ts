@@ -38,18 +38,30 @@ const MENUITEMS = [
         icon: 'desktop_mac',
         role: 'consultant'
     },
-    // {
-    //     state: 'inactive-accounts',
-    //     name: 'Inactive Accounts',
-    //     icon: 'warning',
-    //     role: 'consultant'
-    // },
-    // {
-    //     state: 'inactive-accounts',
-    //     name: 'Inactive Accounts',
-    //     icon: 'warning',
-    //     role: 'admin'
-    // },
+    {
+        state: 'inactive-accounts',
+        name: 'Inactive Accounts',
+        icon: 'warning',
+        role: 'consultant'
+    },
+    {
+        state: 'inactive-accounts',
+        name: 'Inactive Accounts',
+        icon: 'warning',
+        role: 'admin'
+    },
+    {
+        state: 'view-student-details',
+        name: 'Student Details',
+        icon: 'streetview',
+        role: 'consultant'
+    },
+    {
+        state: 'view-student-details',
+        name: 'Student Details',
+        icon: 'streetview',
+        role: 'admin'
+    },
     // {
     //     state: 'create-application',
     //     name: 'Create Application',

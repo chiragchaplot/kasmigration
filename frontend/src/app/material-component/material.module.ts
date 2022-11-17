@@ -22,6 +22,7 @@ import { CreateApplicationComponent } from './create-application/create-applicat
 import { UploadDocumentStudentComponent } from './upload-document-student/upload-document-student.component';
 import { ViewCourseDetailsComponent } from './view-course-details/view-course-details.component';
 import { InactiveAccountsComponent } from './inactive-accounts/inactive-accounts.component';
+import { ViewStudentDetailsComponent } from './view-student-details/view-student-details.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { InactiveAccountsComponent } from './inactive-accounts/inactive-accounts
     CreateApplicationComponent,
     UploadDocumentStudentComponent,
     ViewCourseDetailsComponent,
-    InactiveAccountsComponent    
+    InactiveAccountsComponent,
+    ViewStudentDetailsComponent    
   ]
 })
 export class MaterialComponentsModule {}

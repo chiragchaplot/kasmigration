@@ -20,6 +20,14 @@ export class ConsultantService {
     return this.httpClient.get(this.url+"/consultant/getAllConsultants");
   }
 
+  getAllInactiveStudents(){
+    return this.httpClient.get(this.url+"/consultant/getAllInactiveStudents");
+  }
+
+  getAllActiveStudents(){
+    return this.httpClient.get(this.url+"/consultant/getAllActiveStudents");
+  }
+
   updateConsultantStatus(data:any){
     return this.httpClient.patch(this.url+"/consultant/updateuserstatus",data,{
       headers: new HttpHeaders().set('Content-Type',"application/json")

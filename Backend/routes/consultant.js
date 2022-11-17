@@ -14,8 +14,7 @@ router.post('/addconsultant', auth.authenticateToken, (req, resp) => {
                 query = "insert into user(name, contactNumber, email, password, status, role) values (?,?,?,'password',1,'consultant')";
                 connection.query(query, [user.name, user.contactNumber, user.email], (err, results) => {
                     if (!err) {
-                        let email = sendEmail(user.email, process.env.EMAIL_USER, "Consultant Account Created by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b>${user.email}<br/><b>Password:</b>password<br/><br/><a href='https://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
-                        console.log(email);
+                        let email = sendEmail(user.email, process.env.EMAIL_USER, "Consultant Account Created by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b>${user.email}<br/><b>Password:</b>password<br/><br/><a href='http://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
                         return resp.status(200).json({ message: "Consultant Created" });
                     }
                     else
@@ -34,7 +33,6 @@ router.post('/addconsultant', auth.authenticateToken, (req, resp) => {
 router.patch('/updateconsultant', auth.authenticateToken, (req, resp) => {
     let user = req.body;
     let id = user.id;
-    console.log(id);
     let query = "select * from user where id=?";
     connection.query(query, id, (err, results) => {
         if (!err) {
@@ -61,13 +59,18 @@ router.patch('/updateconsultant', auth.authenticateToken, (req, resp) => {
 router.patch('/updateuserstatus', auth.authenticateToken, (req, resp) => {
     let user = req.body;
     let id = user.id;
-    let query = "select * from user where id=? && role='consultant'";
+    let query = "select * from user where id=? && role in ('consultant','student')";
     connection.query(query, [id], (err, results) => {
         if (!err) {
             if (results.length > 0) {
                 query = "update user set status=? where id=?";
-                connection.query(query, [user.status, id], (err, results) => {
+                connection.query(query, [user.status, id], (err, res) => {
                     if (!err) {
+                        if(user.status == 1) {
+                            var email = sendEmail(results[0].email, process.env.EMAIL_USER, "Account Activated by Kas Migration System", `<p><b>Your login details</b><br/><b>Email:</b>${results[0].email}<br/><b>Password:</b>password<br/><br/><a href='http://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to login with your credentials</a></p>`);
+                        } else {
+                            let email = sendEmail(results[0].email, process.env.EMAIL_USER, "Account Deactivated by Kas Migration System", `<p><b>Your account is deactivated</b><br/><b>Email:</b>${results[0].email}<br/>Contact KAS Migration for more information<a href='http://kasmigration.online' target='_blank' rel='noopener noreferrer'>Click here to contact KAS</a></p>`);
+                        }
                         return resp.status(200).json({ message: "User Updated" });
                     }
                     else
@@ -85,6 +88,46 @@ router.patch('/updateuserstatus', auth.authenticateToken, (req, resp) => {
 //Get all consultants
 router.get("/getAllConsultants",auth.authenticateToken, (req, resp) => {
     let query = "select * from user where role='consultant'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            for (i=0;i<results.length;i++){
+                if(results[i].status == 0) {
+                    results[i].status = false
+                } else {
+                    results[i].status = true
+                }
+            }
+            return resp.status(200).json(results);
+        }
+        else {
+            return resp.status(500).json(err);
+        }
+    });
+});
+
+//Get all consultants
+router.get("/getAllInactiveStudents",auth.authenticateToken, (req, resp) => {
+    let query = "select * from user where role='student' AND status=FALSE";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            for (i=0;i<results.length;i++){
+                if(results[i].status == 0) {
+                    results[i].status = false
+                } else {
+                    results[i].status = true
+                }
+            }
+            return resp.status(200).json(results);
+        }
+        else {
+            return resp.status(500).json(err);
+        }
+    });
+});
+
+//Get all consultants
+router.get("/getAllActiveStudents",auth.authenticateToken, (req, resp) => {
+    let query = "select * from user where role='student' AND status=TRUE";
     connection.query(query, (err, results) => {
         if (!err) {
             for (i=0;i<results.length;i++){
@@ -125,15 +168,47 @@ router.get("/getallstudents",auth.authenticateToken, (req, resp) => {
 //Get all applications
 router.get('/getapplications',(req,res,next)=>{
     const body = req.body;
-    checkExistingApplicationQuery = "select a.id as applicationid, u.name, c.name as course,  as2.description as applicationstage, u2.name as universityname from application a  inner join user u on u.id = a.studentid  INNER JOIN courses c on c.id = a.courseid  inner join applicationStage as2  on as2.stage = a.stage inner join university u2 on c.universityid  = u2.id";
+    checkExistingApplicationQuery = "select a.status as status, a.id as applicationid, u.name, c.name as course,  as2.description as applicationstage, u2.name as universityname from application a  inner join user u on u.id = a.studentid  INNER JOIN courses c on c.id = a.courseid  inner join applicationStage as2  on as2.stage = a.stage inner join university u2 on c.universityid  = u2.id ORDER BY a.id DESC";
     connection.query(checkExistingApplicationQuery, (err, results) => {
         if(!err) {
+            for (i=0;i<results.length;i++){
+                if(results[i].status == 0) {
+                    results[i].status = false
+                } else {
+                    results[i].status = true
+                }
+            }
             return res.status(200).json(results);
         } else {
             return resp.status(500).json(err);
         }
     })
 })
+
+//Update Consultant Status
+router.patch('/updateapplication', auth.authenticateToken, (req, resp) => {
+    let user = req.body;
+    let id = user.id;
+    let query = "select * from application where id=?";
+    connection.query(query, [id], (err, results) => {
+        if (!err) {
+            if (results.length > 0) {
+                query = "update application set status=? where id=?";
+                connection.query(query, [user.status, id], (err, results) => {
+                    if (!err) {
+                        return resp.status(200).json({ message: "Application Updated" });
+                    }
+                    else
+                        return resp.status(500).json({ message: err });
+                });
+            }
+            else
+                return resp.status(400).json({ message: "User Not Updated" });
+        }
+        else
+            return resp.status(500).json(err);
+    })
+});
 
 
 module.exports = router;
