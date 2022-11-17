@@ -6,6 +6,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 import { Router } from '@angular/router';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-upload-document-student',
@@ -33,14 +34,19 @@ export class UploadDocumentStudentComponent implements OnInit {
 
   selectFile(event:any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
+      const file = event.target.files;
       this.images = file;
     }
   }
 
   handleSubmit(){
    const formData = new FormData();
-   formData.append('file', this.images);
+   for(let img of this.images) {
+    formData.append('file',img);
+   }
+   var token:any = localStorage.getItem('token');
+   var decodedValue:any = jwtDecode(token);
+   formData.append('id',decodedValue.userid);
     this.ngxService.start();
     this.userService.uploadFiles(formData).subscribe((response:any)=>{
       this.ngxService.stop();

@@ -46,4 +46,8 @@ export class UserService {
   uploadFiles(data:any) {
     return this.httpClient.post(this.url+"/student/upload",data)
   }
+
+  getUploadedFiles(data:any) {
+    return this.httpClient.get(this.url+'/student/getuploadedfiles',data);
+  }
 }
